@@ -2,6 +2,8 @@
 
 An ultra-fast, responsive, multi-user self-hosted personal board specifically engineered and UI-optimized for **Tesla Vehicle Touchscreens** (1180x919 viewport), tablets, desktop, and mobile browsers.
 
+> ⚡ *Created & Enhanced with the support of **VibeCoding**.*
+
 ---
 
 ## 🌟 Key Features
@@ -18,87 +20,69 @@ An ultra-fast, responsive, multi-user self-hosted personal board specifically en
 
 ---
 
-## 📦 System Requirements
+## ⚡ 1-Click Automated Installation (Proxmox LXC / Linux)
 
-- **Node.js**: v18.x or v20.x+
-- **NPM**: v9.x+
-- **Git**: Installed on your system
+Run this single command on a clean Debian / Ubuntu / Proxmox LXC container to fully automate system dependencies (Node.js 20, Git, Build Tools), repository cloning, production build, and `systemd` background service auto-start:
 
----
+```bash
+curl -sSL https://raw.githubusercontent.com/MrBlueDave/tesla-board/main/install.sh | bash
+```
 
-## ⚡ Quick Installation
+Or clone first and run locally:
 
-### 1. Clone the Repository
 ```bash
 git clone https://github.com/MrBlueDave/tesla-board.git
 cd tesla-board
-```
-
-### 2. Run the Automatic Installer
-
-#### 🐧 On Linux / macOS / Proxmox LXC:
-```bash
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 ```
 
-#### 🪟 On Windows (CMD / PowerShell):
+---
+
+## 🪟 Windows Installation
+
+On Windows (CMD / PowerShell):
+
 ```cmd
+git clone https://github.com/MrBlueDave/tesla-board.git
+cd tesla-board
 .\install.bat
 ```
-
-The installer automatically verifies dependencies, initializes default configuration files in `data/`, installs NPM packages, and builds the production bundle.
 
 ---
 
 ## 🛠️ Manual Installation
 
-If you prefer installing manually without the script:
+If you prefer installing manually:
 
-1. **Create the data directory & default config**:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/MrBlueDave/tesla-board.git /var/www/tesla-board
+   cd /var/www/tesla-board
+   ```
+
+2. **Initialize data directory**:
    ```bash
    mkdir -p data
-   ```
-   Ensure `data/config.json` exists:
-   ```json
-   {
-     "masterPassword": "tesla"
-   }
+   chmod -R 777 data
    ```
 
-2. **Install NPM dependencies**:
+3. **Install dependencies & build**:
    ```bash
    npm install
-   ```
-
-3. **Build production assets**:
-   ```bash
    npm run build
    ```
 
----
-
-## 🚀 Starting the Application
-
-### Production Server (Node.js)
-To start the production server:
-```bash
-npm start
-```
-By default, the server runs on `http://localhost:3000` (or the port defined by `PORT=...`).
-
-### Development Server (Vite Hot-Reload)
-To run in development mode with live hot reloading:
-```bash
-npm run dev
-```
-Access the dev server at `http://localhost:3000`.
+4. **Start the production server**:
+   ```bash
+   npm start
+   ```
 
 ---
 
 ## 🔑 Master Password & Configuration
 
-The initial master password for first-time browser access is stored in `data/config.json`:
+The default master password for first-time browser login is stored in `data/config.json`:
 ```json
 {
   "masterPassword": "tesla"
@@ -106,59 +90,48 @@ The initial master password for first-time browser access is stored in `data/con
 ```
 
 To change the master password:
-- Edit `data/config.json` (e.g. `nano data/config.json`).
-- Restart the server.
+- Edit `data/config.json` (e.g., `nano data/config.json`).
+- Restart the server (`systemctl restart tesla-board.service` or `npm start`).
 
 ---
 
-## ⚙️ Service Setup on Linux / Proxmox LXC (Systemd)
+## ⚙️ Systemd Service Configuration (Auto-Boot)
 
-To keep the application running persistently in the background on system startup:
+The automated installer configures `/etc/systemd/system/tesla-board.service` automatically. Manual service configuration:
 
-1. **Create the systemd service file**:
-   ```bash
-   sudo nano /etc/systemd/system/tesla-board.service
-   ```
+```ini
+[Unit]
+Description=Tesla Personal Board Production Server
+After=network.target
 
-2. **Add the service configuration**:
-   ```ini
-   [Unit]
-   Description=Tesla Personal Board Production Server
-   After=network.target
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/tesla-board
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production PORT=80
 
-   [Service]
-   Type=simple
-   User=root
-   WorkingDirectory=/var/www/tesla-board
-   ExecStart=/usr/bin/node server.js
-   Restart=always
-   RestartSec=5
-   Environment=NODE_ENV=production PORT=80
+[Install]
+WantedBy=multi-user.target
+```
 
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-3. **Enable and start the service**:
-   ```bash
-   sudo systemctl daemon-reload
-   sudo systemctl enable tesla-board.service
-   sudo systemctl start tesla-board.service
-   ```
-
-4. **Check status and logs**:
-   ```bash
-   sudo systemctl status tesla-board.service
-   sudo journalctl -u tesla-board.service -f -n 50
-   ```
+Enable and control the service:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable tesla-board.service
+sudo systemctl start tesla-board.service
+sudo systemctl status tesla-board.service
+```
 
 ---
 
 ## 🌐 Reverse Proxy Setup (Nginx / Nginx Proxy Manager)
 
-If serving the dashboard behind Nginx Proxy Manager with SSL/HTTPS:
+If serving behind Nginx Proxy Manager or Nginx Reverse Proxy with SSL/HTTPS:
 - **Scheme**: `http`
-- **Forward IP**: Internal server/container IP (e.g. `192.168.1.214`)
+- **Forward IP**: Internal container/server IP (e.g. `192.168.1.233`)
 - **Forward Port**: `80` (or your custom `PORT`)
 - **Websockets Support**: `ON` (Enabled)
 
