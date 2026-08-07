@@ -20,6 +20,20 @@ An ultra-fast, responsive, multi-user self-hosted personal board specifically en
 
 ---
 
+## 📸 Dashboard Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/screenshot-dark-futuristic.png" width="48%" alt="Tesla Dark Futuristic Theme" />
+  <img src="docs/screenshots/screenshot-light-pure.png" width="48%" alt="Tesla Light Pure Theme" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/screenshot-dark-neon.png" width="48%" alt="Cyberpunk Neon Dark Theme" />
+  <img src="docs/screenshots/screenshot-light-frost.png" width="48%" alt="Nordic Frost Light Theme" />
+</p>
+
+---
+
 ## ⚡ 1-Click Automated Installation (Proxmox LXC / Linux)
 
 Run this single command on a clean Debian / Ubuntu / Proxmox LXC container to fully automate system dependencies (Node.js 20, Git, Build Tools), repository cloning, production build, and `systemd` background service auto-start:
