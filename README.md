@@ -18,61 +18,109 @@ An ultra-fast, responsive, multi-user self-hosted personal board specifically en
 
 ---
 
-## 📦 1. System Requirements
+## 📦 System Requirements
 
 - **Node.js**: v18.x or v20.x+
 - **NPM**: v9.x+
-- **Recommended Linux Path**: `/var/www/tesla-board`
+- **Git**: Installed on your system
 
 ---
 
-## 🛠️ 2. Quick Installation Guide (Linux / Proxmox LXC)
+## ⚡ Quick Installation
 
-1. **Extract the release ZIP archive into your web server directory**:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/MrBlueDave/tesla-board.git
+cd tesla-board
+```
+
+### 2. Run the Automatic Installer
+
+#### 🐧 On Linux / macOS / Proxmox LXC:
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+#### 🪟 On Windows (CMD / PowerShell):
+```cmd
+.\install.bat
+```
+
+The installer automatically verifies dependencies, initializes default configuration files in `data/`, installs NPM packages, and builds the production bundle.
+
+---
+
+## 🛠️ Manual Installation
+
+If you prefer installing manually without the script:
+
+1. **Create the data directory & default config**:
    ```bash
-   mkdir -p /var/www/tesla-board
-   unzip Tesla-Personal-Board-Release.zip -d /var/www/tesla-board
-   cd /var/www/tesla-board
+   mkdir -p data
+   ```
+   Ensure `data/config.json` exists:
+   ```json
+   {
+     "masterPassword": "tesla"
+   }
    ```
 
-2. **Create the data directory and grant write permissions**:
-   ```bash
-   mkdir -p /var/www/tesla-board/data
-   chmod -R 777 /var/www/tesla-board/data
-   ```
-
-3. **Install dependencies and build production bundle** (if building from source):
+2. **Install NPM dependencies**:
    ```bash
    npm install
+   ```
+
+3. **Build production assets**:
+   ```bash
    npm run build
    ```
 
 ---
 
-## 🔑 3. Master Password Configuration
+## 🚀 Starting the Application
 
-The default master password is stored in `data/config.json`:
+### Production Server (Node.js)
+To start the production server:
+```bash
+npm start
+```
+By default, the server runs on `http://localhost:3000` (or the port defined by `PORT=...`).
+
+### Development Server (Vite Hot-Reload)
+To run in development mode with live hot reloading:
+```bash
+npm run dev
+```
+Access the dev server at `http://localhost:3000`.
+
+---
+
+## 🔑 Master Password & Configuration
+
+The initial master password for first-time browser access is stored in `data/config.json`:
 ```json
 {
   "masterPassword": "tesla"
 }
 ```
 
-To change the master password required for first-time browser logins:
-- Edit `data/config.json` with your preferred editor (e.g. `nano data/config.json`).
+To change the master password:
+- Edit `data/config.json` (e.g. `nano data/config.json`).
+- Restart the server.
 
 ---
 
-## ⚙️ 4. Systemd Service Setup (Automatic Boot)
+## ⚙️ Service Setup on Linux / Proxmox LXC (Systemd)
 
-Keep the Node.js production server running as a persistent background daemon on system startup.
+To keep the application running persistently in the background on system startup:
 
 1. **Create the systemd service file**:
    ```bash
-   nano /etc/systemd/system/tesla-board.service
+   sudo nano /etc/systemd/system/tesla-board.service
    ```
 
-2. **Paste the following service configuration**:
+2. **Add the service configuration**:
    ```ini
    [Unit]
    Description=Tesla Personal Board Production Server
@@ -93,39 +141,29 @@ Keep the Node.js production server running as a persistent background daemon on 
 
 3. **Enable and start the service**:
    ```bash
-   systemctl daemon-reload
-   systemctl enable tesla-board.service
-   systemctl start tesla-board.service
+   sudo systemctl daemon-reload
+   sudo systemctl enable tesla-board.service
+   sudo systemctl start tesla-board.service
    ```
 
-4. **Verify service status and inspect live logs**:
+4. **Check status and logs**:
    ```bash
-   systemctl status tesla-board.service
-   journalctl -u tesla-board.service -f -n 50
+   sudo systemctl status tesla-board.service
+   sudo journalctl -u tesla-board.service -f -n 50
    ```
 
 ---
 
-## 🌐 5. Reverse Proxy Configuration (Nginx Proxy Manager)
+## 🌐 Reverse Proxy Setup (Nginx / Nginx Proxy Manager)
 
-If accessing externally via Nginx Proxy Manager or Nginx Reverse Proxy with SSL/HTTPS:
+If serving the dashboard behind Nginx Proxy Manager with SSL/HTTPS:
 - **Scheme**: `http`
-- **Forward IP**: Internal LXC IP address (e.g., `192.168.1.214`)
-- **Forward Port**: `80` (or your configured `PORT`)
-- **Websockets Support**: Enabled (`ON`)
-
----
-
-## 🖥️ 6. Running Locally in Development Mode
-
-To run the app locally with Vite dev server:
-```bash
-npm install
-npm run dev
-```
-The development server will start on `http://localhost:3000`.
+- **Forward IP**: Internal server/container IP (e.g. `192.168.1.214`)
+- **Forward Port**: `80` (or your custom `PORT`)
+- **Websockets Support**: `ON` (Enabled)
 
 ---
 
 ## 📄 License
+
 Released under the MIT License.
