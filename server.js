@@ -182,8 +182,8 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Tesla Board Production Server listening on http://0.0.0.0:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`🚀 Tesla Board Production Server listening on port ${PORT}`);
   console.log(`📁 Static files folder: ${DIST_DIR}`);
   console.log(`💾 Profiles file path: ${PROFILES_FILE}`);
 });
