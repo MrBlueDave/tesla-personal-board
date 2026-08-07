@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <circle cx="64" cy="64" r="44" fill="#E4001B"/>
+        <path fill="#FFFFFF" d="M48 36h18c8 0 14 4 14 10 0 5-4 9-9 11l10 17H68L60 58h-4v19H48V36zm12 14h6c3 0 5-1 5-3s-2-3-5-3h-6v6z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Rakuten TV</text>
+</svg>

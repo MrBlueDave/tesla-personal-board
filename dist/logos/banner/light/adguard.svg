@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <path fill="#67B279" d="M64 16L20 32v32c0 28 44 48 44 48s44-20 44-48V32L64 16z"/>
+        <path fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" d="M44 64l14 14 26-26"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">AdGuard</text>
+</svg>

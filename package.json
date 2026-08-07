@@ -1,0 +1,19 @@
+{
+  "name": "tesla-personal-board",
+  "private": true,
+  "version": "0.8.3",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "uipro-cli": "^2.2.3",
+    "vite": "^5.4.2"
+  },
+  "dependencies": {
+    "lucide": "^0.468.0"
+  }
+}

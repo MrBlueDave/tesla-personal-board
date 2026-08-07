@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#22B8CF">
+        <circle cx="64" cy="64" r="48"/>
+        <path d="M44 44l40 40M84 44L44 84" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Perplexity</text>
+</svg>

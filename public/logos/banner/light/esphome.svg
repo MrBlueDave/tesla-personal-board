@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#0288D1">
+        <rect x="24" y="24" width="80" height="80" rx="16"/>
+        <path fill="#111827" d="M40 50h48v8H40zm0 16h48v8H40zm0 16h32v8H40z"/>
+        <circle cx="84" cy="86" r="6" fill="#FFC107"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">ESPHome</text>
+</svg>

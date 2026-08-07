@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="256" height="256">
+  <g>
+        <path fill="#FF0000" d="M110 40c-1-5-5-9-10-10-9-3-44-3-44-3s-35 0-44 3c-5 1-9 5-10 10-3 9-3 28-3 28s0 19 3 28c1 5 5 9 10 10 9 3 44 3 44 3s35 0 44-3c5-1 9-5 10-10 3-9 3-28 3-28s0-19-3-28z"/>
+        <polygon fill="#FFFFFF" points="52,46 80,64 52,82"/>
+      </g>
+</svg>

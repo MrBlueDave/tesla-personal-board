@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <path fill="#25F4EE" d="M70 30a24 24 0 0 0 16 12v12a36 36 0 0 1-16-5v23c0 15-12 28-28 28S14 88 14 73s12-28 28-28c2 0 4 0 6 1v14a14 14 0 1 0 8 13V20h14v10z"/>
+        <path fill="#FE2C55" d="M72 32a24 24 0 0 0 16 12v8a36 36 0 0 1-16-5v23c0 15-12 28-28 28S16 86 16 71s12-28 28-28c2 0 4 0 6 1v10a14 14 0 1 0 8 13V22h14v10z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">TikTok</text>
+</svg>

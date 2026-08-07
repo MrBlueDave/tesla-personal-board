@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <circle cx="64" cy="64" r="44" fill="#4178BE"/>
+        <path fill="#FFFFFF" d="M52 36h24v12H52V36zm-4 16h32v8H48v-8zm8 12h16v20H56V64z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">PlugShare</text>
+</svg>

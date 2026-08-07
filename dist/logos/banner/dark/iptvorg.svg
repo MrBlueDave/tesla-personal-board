@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#28A745">
+        <rect x="20" y="24" width="88" height="64" rx="12"/>
+        <polygon points="56,40 80,56 56,72" fill="#FFFFFF"/>
+        <path d="M44 96h40" stroke="#28A745" stroke-width="8" stroke-linecap="round"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">IPTV Web Player</text>
+</svg>

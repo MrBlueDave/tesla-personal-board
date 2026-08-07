@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="none" stroke="#00AEEF" stroke-width="12" stroke-linecap="round">
+        <path d="M64 24a40 40 0 1 1-28 68"/>
+        <path d="M64 44a20 20 0 1 1-14 34"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Shelly</text>
+</svg>

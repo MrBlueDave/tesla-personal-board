@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <path fill="#111827" d="M64 20L20 58v50h88V58L64 20z"/>
+        <path fill="none" stroke="#8C52FF" stroke-width="8" d="M34 50c18-18 42-18 60 0"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">Homebridge</text>
+</svg>

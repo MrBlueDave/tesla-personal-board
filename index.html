@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="tesla-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Tesla Personal Board v0.8.3 | Home Dashboard</title>
+  <meta name="description" content="Simple Personal Dashboard self-hosted per Tesla v0.8.3. Lancia app e servizi in modalità standard o a schermo intero via YouTube redirect." />
+  <meta name="theme-color" content="#0d0e12" />
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="/logotesla.png" />
+  <link rel="apple-touch-icon" href="/logotesla.png" />
+
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- SYNCHRONOUS ZERO-FLICKER THEME INITIALIZER GUARD -->
+  <script>
+    (function() {
+      try {
+        var mode = localStorage.getItem('tesla_board_theme_mode') || 'auto';
+        var darkPreset = localStorage.getItem('tesla_board_dark_preset') || 'tesla-dark';
+        var lightPreset = localStorage.getItem('tesla_board_light_preset') || 'light-tesla';
+        var preset = darkPreset;
+        if (mode === 'light') {
+          preset = lightPreset;
+        } else if (mode === 'dark') {
+          preset = darkPreset;
+        } else {
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          preset = prefersDark ? darkPreset : lightPreset;
+        }
+        document.documentElement.setAttribute('data-theme', preset);
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="./src/css/variables.css" />
+  <link rel="stylesheet" href="./src/css/main.css" />
+  <link rel="stylesheet" href="./src/css/components.css" />
+
+  <!-- SYNCHRONOUS ZERO-FLICKER AUTH GUARD -->
+  <script>
+    (function() {
+      try {
+        var token = localStorage.getItem('tesla_board_auth_token');
+        if (!token) {
+          document.documentElement.classList.add('needs-auth');
+        }
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+  <!-- VIBRANT DYNAMIC ANIMATED BACKGROUND ORBS LAYER -->
+  <div class="dynamic-bg-container">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
+
+  <div id="app">
+    <!-- HEADER BAR -->
+    <header class="header-bar">
+      <div class="brand-section">
+        <!-- OFFICIAL TESLA LOGO PNG -->
+        <img src="/logotesla.png" class="tesla-logo-img" alt="Tesla Logo" />
+        <div class="brand-title">
+          <h1 data-i18n="brandTitle" class="tesla-font-title">TESLA BOARD</h1>
+          <span class="tesla-font-sub"><span data-i18n="brandSubtitle">SIMPLE PERSONAL DASHBOARD</span> v0.8.3</span>
+        </div>
+      </div>
+
+      <!-- CENTER WIDGETS (EQUAL HEIGHT AS ACTION BUTTONS) -->
+      <div class="header-center">
+        <!-- LIVE CLOCK -->
+        <div class="clock-widget header-widget-height" id="clock-widget">
+          <div class="clock-time" id="clock-time">12:00</div>
+          <div class="clock-date" id="clock-date">LUNEDÌ, 4 AGOSTO</div>
+        </div>
+
+        <!-- LIVE WEATHER (ONLY ICON & TEMP) -->
+        <div class="weather-widget header-widget-height" id="weather-widget" title="Meteo in tempo reale (Open-Meteo)">
+          <i data-lucide="sun" id="weather-icon"></i>
+          <div class="weather-temp" id="weather-temp">--°C</div>
+        </div>
+      </div>
+
+      <!-- HEADER ACTIONS -->
+      <div class="header-actions">
+        <!-- HARD REFRESH BUTTON -->
+        <button class="btn btn-glass btn-icon" id="header-refresh-btn" title="Ricarica forzata pagina (Hard Refresh)" aria-label="Ricarica pagina">
+          <i data-lucide="rotate-cw"></i>
+        </button>
+
+        <!-- LAUNCH THIS PAGE IN FULLSCREEN BUTTON (ICON ONLY) -->
+        <button class="btn btn-glass btn-icon" id="header-launch-fullscreen-btn" title="Apri questa Tesla Board a Schermo Intero via YouTube Redirect" aria-label="Apri a schermo intero">
+          <i data-lucide="maximize-2"></i>
+        </button>
+
+        <!-- FULLSCREEN VS NORMAL LINK OPEN MODE TOGGLE (ICON + ON/OFF ONLY) -->
+        <button class="mode-toggle-btn is-fullscreen" id="global-mode-btn" title="Cambia modalità di apertura predefinita per tutti i link" aria-label="Modalità schermo intero">
+          <i data-lucide="tv" id="mode-icon"></i>
+          <span id="mode-text">ON</span>
+        </button>
+
+        <!-- MULTI-USER PIN PROFILE SELECTOR BUTTON -->
+        <button class="btn btn-glass" id="header-user-profile-btn" title="Gestione Profilo Utente & PIN Multi-Utente" aria-label="Profilo utente PIN">
+          <i data-lucide="user"></i>
+          <span id="active-profile-pin-text" style="font-size: 0.92rem; font-weight: 800; font-family: var(--font-mono);">0000</span>
+        </button>
+
+        <!-- APPLE-STYLE THEME SELECTOR POPOVER (ICON ONLY TRIGGER) -->
+        <div class="theme-popover-wrapper" id="theme-popover-wrapper">
+          <button class="btn btn-glass btn-icon" id="theme-popover-trigger" title="Tema Interfaccia (Chiaro / Scuro / Auto)" aria-label="Selettore tema">
+            <span id="theme-trigger-icon-box" style="display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="sun" id="theme-trigger-icon"></i>
+            </span>
+          </button>
+
+          <div class="theme-popover-menu" id="theme-popover-menu">
+            <button class="popover-item" data-theme-mode="light">
+              <i data-lucide="sun"></i>
+              <span data-i18n="themeLight">Chiaro</span>
+            </button>
+            <button class="popover-item" data-theme-mode="dark">
+              <i data-lucide="moon"></i>
+              <span data-i18n="themeDark">Scuro</span>
+            </button>
+            <button class="popover-item" data-theme-mode="auto">
+              <span class="sun-moon-diag-box">
+                <svg class="diag-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"></path>
+                  <path d="M12 2a10 10 0 1 0 10 10 0 0 1-10 10" fill="currentColor" opacity="0.35"></path>
+                  <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"></line>
+                </svg>
+              </span>
+              <span data-i18n="themeAuto">Auto (Sistema)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PRESET SERVICES MANAGER BUTTON (ICON ONLY) -->
+        <button class="btn btn-glass btn-icon" id="header-presets-btn" title="Gestisci visibilità servizi di sistema" aria-label="Gestisci servizi predefiniti">
+          <i data-lucide="layers"></i>
+        </button>
+
+        <!-- ADD LINK BUTTON (ICON ONLY) -->
+        <button class="btn btn-glass btn-icon" id="header-add-btn" title="Aggiungi nuovo link o servizio" aria-label="Aggiungi nuovo link">
+          <i data-lucide="plus"></i>
+        </button>
+
+        <!-- SETTINGS BUTTON -->
+        <button class="btn btn-glass btn-icon" id="header-settings-btn" title="Impostazioni & Temi" aria-label="Impostazioni">
+          <i data-lucide="settings"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="main-content">
+      <!-- TOOLBAR & FILTERS -->
+      <section class="toolbar-section">
+        <!-- SINGLE HORIZONTAL CONTROLS ROW WITH CATEGORIES NEXT TO SORT SELECTOR (NO SCROLLBARS) -->
+        <div class="toolbar-controls-row">
+          <!-- COMPACT SEARCH LENS BUTTON -->
+          <button class="btn btn-glass btn-icon" id="search-trigger-btn" title="Cerca link e app (/)" aria-label="Cerca" style="width: 46px; height: 46px; flex-shrink: 0;">
+            <i data-lucide="search"></i>
+          </button>
+
+          <!-- TOUCH EDIT MODE TOGGLE BUTTON (ICON ONLY - PENCIL) -->
+          <button class="btn btn-glass btn-icon edit-mode-btn" id="edit-mode-toggle-btn" title="Attiva / Disattiva modalità modifica veloce per touch" aria-label="Modalità modifica" style="width: 46px; height: 46px; flex-shrink: 0;">
+            <i data-lucide="pencil" id="edit-mode-icon"></i>
+          </button>
+
+          <!-- APPLE-STYLE FLOATING SORT SELECTOR POPOVER -->
+          <div class="theme-popover-wrapper" id="sort-popover-wrapper" style="flex-shrink: 0;">
+            <button class="btn btn-glass" id="sort-popover-trigger" title="Ordinamento App" aria-label="Ordinamento app">
+              <i data-lucide="arrow-up-down"></i>
+              <span id="sort-trigger-text" style="font-size: 0.95rem; font-weight: 700;">Ordina: Categoria</span>
+              <i data-lucide="chevron-down" style="font-size: 0.8rem; opacity: 0.7; margin-left: 2px;"></i>
+            </button>
+
+            <div class="theme-popover-menu" id="sort-popover-menu" style="width: 200px;">
+              <button class="popover-item" data-sort-mode="category">
+                <i data-lucide="folder-tree"></i>
+                <span data-i18n="sortCategory">Per Categoria</span>
+              </button>
+              <button class="popover-item" data-sort-mode="title_az">
+                <i data-lucide="arrow-down-a-z"></i>
+                <span data-i18n="sortAZ">Titolo (A - Z)</span>
+              </button>
+              <button class="popover-item" data-sort-mode="title_za">
+                <i data-lucide="arrow-up-z-a"></i>
+                <span data-i18n="sortZA">Titolo (Z - A)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CATEGORY PILLS DIRECTLY NEXT TO SORT SELECTOR IN SINGLE STREAMLINED ROW -->
+          <nav class="category-pills" id="category-pills" style="margin: 0; padding: 0;">
+            <!-- Rendered dynamically by JS -->
+          </nav>
+        </div>
+      </section>
+
+      <!-- CARDS / ICONS GRID (SINGLE UNIFIED VIEW) -->
+      <section class="cards-grid" id="cards-grid">
+        <!-- Dynamic Cards rendered by JS -->
+      </section>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: IN-PAGE WEB CONFIRMATION DIALOG (FOR DELETE / HIDE)
+       ========================================================================== -->
+  <div class="modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="modal-container" style="max-width: 440px; text-align: center;">
+      <div class="modal-body" style="align-items: center; gap: 14px; padding: 24px 20px 16px 20px;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(255, 59, 48, 0.18); border: 1px solid #ff3b30; color: #ff3b30; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">
+          <i data-lucide="trash-2"></i>
+        </div>
+        <div>
+          <h3 id="confirm-modal-title" style="font-size: 1.35rem; font-weight: 900; color: var(--text-primary); margin-bottom: 6px;">Conferma Eliminazione</h3>
+          <p id="confirm-modal-message" style="font-size: 1.05rem; font-weight: 700; color: var(--text-secondary);">Vuoi davvero eliminare questo link?</p>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center; gap: 12px; padding: 16px 20px;">
+        <button type="button" class="btn btn-glass" id="confirm-modal-cancel" style="min-width: 110px; font-size: 1.05rem;">Annulla</button>
+        <button type="button" class="btn btn-primary" id="confirm-modal-action" style="min-width: 110px; font-size: 1.05rem; background: #ff3b30; border-color: #ff3b30;">Elimina</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: MULTI-USER PIN PROFILE SWITCHER
+       ========================================================================== -->
+  <div class="modal-overlay" id="pin-profile-modal" role="dialog" aria-modal="true">
+    <div class="modal-container" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="font-size: 1.3rem; font-weight: 900;">Profilo Utente & PIN Multi-Utente</h3>
+        <button class="modal-close-btn" id="pin-profile-modal-close" title="Chiudi">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 22px; gap: 18px;">
+        <p style="font-size: 1rem; font-weight: 700; color: var(--text-secondary);">
+          Seleziona un profilo esistente o digita il tuo PIN personalizzato (es. 1234) ed assegna un nome al tuo profilo:
+        </p>
+
+        <form id="pin-profile-form" onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label" for="pin-input-field" style="font-size: 0.95rem;">PIN Profilo *</label>
+              <input type="text" id="pin-input-field" class="form-input" placeholder="0000" maxlength="6" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; text-align: center; letter-spacing: 3px;" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="profile-name-input-field" style="font-size: 0.95rem;">Nome Profilo (Opzionale)</label>
+              <input type="text" id="profile-name-input-field" class="form-input" placeholder="es. Marco, Auto, Work" style="font-size: 0.95rem; font-weight: 700;" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btn-switch-pin" style="width: 100%; height: 44px; font-size: 1rem; font-weight: 800;">Salva & Accedi al Profilo</button>
+        </form>
+
+        <div class="form-group" style="margin-top: 6px;">
+          <label class="form-label" style="font-size: 1rem;">Profili Salvati in Questa Tesla Board</label>
+          <div id="profiles-list-container" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-glass" id="pin-profile-modal-done" style="font-size: 1rem; font-weight: 800;">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: COMPACT TOUCH-OPTIMIZED SPOTLIGHT SEARCH BOX
+       ========================================================================== -->
+  <div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" style="background: rgba(0, 0, 0, 0.65); backdrop-filter: none;">
+    <div class="search-floating-box">
+      <div class="search-modal-input-box">
+        <i data-lucide="search" class="search-modal-icon"></i>
+        <input type="text" id="search-modal-input" class="search-modal-input" data-i18n="searchPlaceholder" placeholder="Cerca app, servizi, segnalibri..." autocomplete="off" />
+        <button type="button" class="btn-clear-search" id="btn-clear-search" style="display: none;" title="Cancella ricerca">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="search-modal-footer-hint">
+        <span style="font-size: 0.9rem; font-weight: 700;">Scrivi per filtrare in tempo reale • Tocca fuori per chiudere</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: ADD / EDIT LINK (STRICT 560px FORM LAYOUT)
+       ========================================================================== -->
+  <div class="modal-overlay" id="link-modal" role="dialog" aria-modal="true" aria-labelledby="link-modal-title">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="link-modal-title" data-i18n="modalAddTitle">Aggiungi Nuovo Link</h3>
+        <button class="modal-close-btn" id="link-modal-close" title="Chiudi">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="link-form" autocomplete="off">
+        <div class="modal-body">
+          <div id="preset-notice-box" class="notice-box" style="display: none;">
+            <i data-lucide="info"></i>
+            <span data-i18n="modalEditPresetNotice">Nota: Stai modificando un servizio predefinito. Verrà creata automaticamente una tua copia personalizzata.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="form-title" data-i18n="formTitle">Titolo Servizio / App *</label>
+            <input type="text" id="form-title" class="form-input" placeholder="Es. Plex, Home Assistant, Netflix..." required />
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <label class="form-label" for="form-url" data-i18n="formUrl">URL Principale *</label>
+              <div class="url-prefix-group">
+                <button type="button" class="btn-prefix" id="btn-prefix-https">+ https://</button>
+                <button type="button" class="btn-prefix" id="btn-prefix-http">+ http://</button>
+              </div>
+            </div>
+            <input type="text" id="form-url" class="form-input" placeholder="google.com/search oppure 192.168.1.100:8123/lovelace/0" required />
+            <span style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px;" data-i18n="urlHelp">Puoi inserire URL completi con percorsi ed estensioni. I pulsanti in alto aggiungono il prefisso automaticamente.</span>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <label class="form-label" for="form-category" data-i18n="formCategory">Categoria</label>
+              <button type="button" class="btn-prefix" id="btn-add-custom-cat" data-i18n="btnAddCustomCat">+ Nuova Categoria...</button>
+            </div>
+            <select id="form-category" class="form-select">
+              <!-- Rendered dynamically with custom categories by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="form-custom-redirect" data-i18n="formCustomRedirect">URL Redirect Fullscreen Personalizzato (Opzionale)</label>
+            <input type="text" id="form-custom-redirect" class="form-input" placeholder="Lascia vuoto per generare automaticamente il link YouTube redirect" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label" for="form-logo-url" data-i18n="formLogoSquare">URL Logo Quadrato (Opzionale)</label>
+              <input type="text" id="form-logo-url" class="form-input" placeholder="https://... o /logos/square/dark/nome.png" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-wide-logo-url" data-i18n="formLogoWide">URL Logo Esteso/Banner (Opzionale)</label>
+              <input type="text" id="form-wide-logo-url" class="form-input" placeholder="https://... o /logos/banner/dark/nome.png" />
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <label class="form-label" data-i18n="formColorLabel">Colore Sfondo App & Tavolozza Rapida</label>
+            <div class="color-swatches-container" id="color-swatches">
+              <button type="button" class="swatch-btn" data-color="#E82127" style="background: #E82127;" title="Tesla Red"></button>
+              <button type="button" class="swatch-btn" data-color="#E50914" style="background: #E50914;" title="Netflix Red"></button>
+              <button type="button" class="swatch-btn" data-color="#00A8E1" style="background: #00A8E1;" title="Prime Blue"></button>
+              <button type="button" class="swatch-btn" data-color="#1DB954" style="background: #1DB954;" title="Spotify Green"></button>
+              <button type="button" class="swatch-btn" data-color="#9146FF" style="background: #9146FF;" title="Twitch Purple"></button>
+              <button type="button" class="swatch-btn" data-color="#1877F2" style="background: #1877F2;" title="Facebook Blue"></button>
+              <button type="button" class="swatch-btn" data-color="#10A37F" style="background: #10A37F;" title="OpenAI Teal"></button>
+              <button type="button" class="swatch-btn" data-color="#1f2937" style="background: #1f2937;" title="Dark Slate"></button>
+              <button type="button" class="swatch-btn" data-color="transparent" style="background: rgba(255,255,255,0.08); color: #fff;" title="Vetro Trasparente">Nessuno</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;">
+              <div class="form-group">
+                <label class="form-label" for="form-icon" data-i18n="formIconFallback">Nome Icona Lucide (Fallback)</label>
+                <input type="text" id="form-icon" class="form-input" placeholder="es. tv, film, music, home, globe" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="form-color" data-i18n="formColorPicker">Selettore Colore Custom</label>
+                <input type="color" id="form-color" class="form-input" value="#1f2937" style="height: 44px; padding: 4px;" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-glass" id="link-modal-delete" style="border-color: rgba(232, 33, 39, 0.4); color: #ff4d4d; margin-right: auto; display: none;">
+            <i data-lucide="trash-2"></i> <span id="link-modal-delete-text" data-i18n="btnDelete">Elimina Link</span>
+          </button>
+          <button type="button" class="btn btn-glass" id="link-modal-cancel" data-i18n="btnCancel">Annulla</button>
+          <button type="submit" class="btn btn-primary" data-i18n="btnSave">Salva Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: PRESET SERVICES MANAGER (ELEGANT PROPORTIONAL SIZE FOR TESLA MCU)
+       ========================================================================== -->
+  <div class="modal-overlay" id="presets-modal" role="dialog" aria-modal="true">
+    <div class="modal-container presets-modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" data-i18n="presetsModalTitle">Gestione Servizi Predefiniti per Categoria</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 4px; font-weight: 600;" data-i18n="presetsModalSubtitle">
+            Espandi le categorie per attivare o disattivare i servizi di sistema out-of-the-box o aggiungerli ai preferiti.
+          </p>
+        </div>
+        <button class="modal-close-btn" id="presets-modal-close" title="Chiudi">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body presets-modal-body" id="presets-accordion-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="presets-modal-done" data-i18n="btnDone">Fatto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: SETTINGS & THEMES (ELEGANT PROPORTIONAL SIZE FOR TESLA MCU)
+       ========================================================================== -->
+  <div class="modal-overlay" id="settings-modal" role="dialog" aria-modal="true">
+    <div class="modal-container settings-modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" data-i18n="settingsTitle">Impostazioni & Temi Dashboard</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 4px; font-weight: 600;">
+            Personalizza temi, lingua, visibilità categorie e backup dei dati.
+          </p>
+        </div>
+        <button class="modal-close-btn" id="settings-modal-close" title="Chiudi">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body settings-modal-body">
+        <!-- CARD 1: LINGUA & TEMI VISIVI -->
+        <div class="settings-card">
+          <div class="settings-card-title">
+            <i data-lucide="palette"></i>
+            <span>Lingua & Temi Visivi</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="selectLang">Lingua Interfaccia</label>
+            <select id="language-select" class="form-select">
+              <!-- Rendered by JS -->
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px;">
+            <div class="form-group">
+              <label class="form-label" data-i18n="themePresetDark">Preset Tema Scuro</label>
+              <select id="dark-theme-select" class="form-select">
+                <!-- Rendered by JS -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" data-i18n="themePresetLight">Preset Tema Chiaro</label>
+              <select id="light-theme-select" class="form-select">
+                <!-- Rendered by JS -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: ORDINAMENTO & VISIBILITÀ CATEGORIE -->
+        <div class="settings-card">
+          <div class="settings-card-title">
+            <i data-lucide="folder-tree"></i>
+            <span data-i18n="catOrderTitle">Ordinamento & Visibilità Categorie Dashboard</span>
+          </div>
+          <span style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;" data-i18n="catOrderSubtitle">Sposta le categorie per personalizzarne la sequenza visiva ed attiva/disattiva la visibilità nella GUI</span>
+          
+          <div id="category-order-list" class="cat-order-list" style="margin-top: 10px;">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- CARD 3: OPZIONI & TOGGLES COMPORTAMENTO -->
+        <div class="settings-card">
+          <div class="settings-card-title">
+            <i data-lucide="sliders"></i>
+            <span>Comportamento & Display</span>
+          </div>
+
+          <div class="settings-toggle-row">
+            <div class="settings-toggle-info">
+              <span class="toggle-title" data-i18n="toggleAnimatedBg">Sfondo Animato Dinamico</span>
+              <span class="toggle-desc">Attiva le sfere luminose a gradiente in movimento sullo sfondo</span>
+            </div>
+            <label class="ios-switch">
+              <input type="checkbox" id="toggle-animated-bg-checkbox" />
+              <span class="ios-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-toggle-row">
+            <div class="settings-toggle-info">
+              <span class="toggle-title">⚡ HUD Diagnostica Viewport & DPI</span>
+              <span class="toggle-desc">Mostra il badge overlay di monitoraggio risoluzione schermo Tesla</span>
+            </div>
+            <label class="ios-switch">
+              <input type="checkbox" id="toggle-debug-hud-checkbox" />
+              <span class="ios-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- CARD 4: BACKUP, RIPRISTINO & DEFAULT -->
+        <div class="settings-card">
+          <div class="settings-card-title">
+            <i data-lucide="database"></i>
+            <span data-i18n="backupRestore">Backup & Manutenzione Dati</span>
+          </div>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px;">
+            <button class="btn btn-glass" id="export-json-btn">
+              <i data-lucide="download"></i> <span data-i18n="btnExport">Esporta Tutti i Profili JSON</span>
+            </button>
+            
+            <label class="btn btn-glass" style="margin: 0; cursor: pointer;">
+              <i data-lucide="upload"></i> <span data-i18n="btnImport">Importa Tutti i Profili JSON</span>
+              <input type="file" id="import-json-input" accept=".json" style="display: none;" />
+            </label>
+
+            <button class="btn btn-glass" id="lock-browser-btn" style="border-color: rgba(0, 242, 254, 0.4); color: var(--accent-secondary);">
+              <i data-lucide="lock"></i> <span>Blocca Schermo Browser</span>
+            </button>
+
+            <button class="btn btn-glass" id="reset-default-btn" style="border-color: rgba(232,33,39,0.4); color: #ff4d4d; margin-left: auto;">
+              <i data-lucide="rotate-ccw"></i> <span data-i18n="btnResetDefault">Ripristina Catalogo Iniziale</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="settings-modal-done" data-i18n="btnDone">Fatto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FULLSCREEN TESLA AUTOMOTIVE LOCK SCREEN OVERLAY
+       ========================================================================== -->
+  <div class="auth-lock-overlay" id="auth-lock-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-lock-title">
+    <div class="auth-lock-box" id="auth-lock-box">
+      <div class="auth-lock-header">
+        <img src="/logotesla.png" class="auth-lock-logo" alt="Tesla Logo" />
+        <h2 id="auth-lock-title" class="tesla-font-title" style="font-size: 1.5rem;">TESLA BOARD</h2>
+        <span class="auth-lock-subtitle">INSERISCI LA PASSWORD MASTER PER ACCEDERE</span>
+      </div>
+
+      <form id="auth-lock-form" autocomplete="off">
+        <div class="auth-input-container">
+          <input type="password" id="auth-password-input" class="auth-password-input" placeholder="••••••••" autocomplete="current-password" required />
+          <button type="submit" class="auth-submit-btn" aria-label="Sblocca dashboard">
+            <i data-lucide="key-round"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- TOUCH PIN KEYPAD FOR AUTOMOTIVE TESLA SCREEN -->
+      <div class="auth-pin-keypad" id="auth-pin-keypad">
+        <button type="button" class="auth-key-btn" data-num="1">1</button>
+        <button type="button" class="auth-key-btn" data-num="2">2</button>
+        <button type="button" class="auth-key-btn" data-num="3">3</button>
+        <button type="button" class="auth-key-btn" data-num="4">4</button>
+        <button type="button" class="auth-key-btn" data-num="5">5</button>
+        <button type="button" class="auth-key-btn" data-num="6">6</button>
+        <button type="button" class="auth-key-btn" data-num="7">7</button>
+        <button type="button" class="auth-key-btn" data-num="8">8</button>
+        <button type="button" class="auth-key-btn" data-num="9">9</button>
+        <button type="button" class="auth-key-btn auth-key-action" data-action="clear">C</button>
+        <button type="button" class="auth-key-btn" data-num="0">0</button>
+        <button type="button" class="auth-key-btn auth-key-action" data-action="backspace">⌫</button>
+      </div>
+
+      <div class="auth-lock-footer-hint">
+        <span>Password predefinita: <code style="color: var(--accent-secondary);">tesla</code> • Modificabile in <code style="color: var(--text-primary);">data/config.json</code></span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/js/app.js"></script>
+</body>
+</html>

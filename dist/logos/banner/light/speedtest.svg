@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <path fill="none" stroke="#00FDFF" stroke-width="10" stroke-linecap="round" d="M30 84a44 44 0 1 1 68 0"/>
+        <polygon fill="#00FDFF" points="64,64 84,36 72,64"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">Speedtest</text>
+</svg>

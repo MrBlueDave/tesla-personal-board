@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="256" height="256">
+  <g fill="none" stroke="#00A4DC" stroke-width="12" stroke-linejoin="round">
+        <path d="M64 24L24 88h80L64 24z"/>
+        <path d="M64 48L44 88h40L64 48z" stroke="#AA5CC3"/>
+      </g>
+</svg>

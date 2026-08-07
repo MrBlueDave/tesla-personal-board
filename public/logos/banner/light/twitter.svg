@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <path fill="#111827" d="M78 24h18L60 67l42 57H66L40 86l-29 38H13l39-46L12 24h37l23 31 16-31zm-6 81h10L33 34H22l40 71z"/>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">X / Twitter</text>
+</svg>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <path fill="#111827" d="M64 16L16 56v56h32V80h32v32h32V56L64 16zm0 20a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm-20 28a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm40 0a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">Home Assistant</text>
+</svg>

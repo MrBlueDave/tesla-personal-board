@@ -1,0 +1,190 @@
+/* BASE CSS & RESET STYLES FOR TESLA PERSONAL BOARD */
+
+@import './variables.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--main-padding-y) var(--main-padding-x);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.2vh, 32px);
+}
+
+/* BUTTON UTILITIES (TESLA TOUCH READABILITY & HIGH CONTRAST) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: clamp(40px, 5.5vh, 46px);
+  padding: 0 clamp(14px, 1.5vw, 22px);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family);
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+[data-theme="oled-black"] .btn-primary {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+.btn-glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.btn-glass:hover {
+  background: var(--glass-hover-bg);
+  border-color: var(--glass-hover-border);
+}
+
+.btn-icon {
+  width: clamp(40px, 5.5vh, 46px);
+  height: clamp(40px, 5.5vh, 46px);
+  padding: 0;
+  border-radius: 50%;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge-cyan {
+  background: rgba(0, 242, 254, 0.18);
+  border: 1px solid var(--accent-secondary);
+  color: var(--accent-secondary);
+}
+
+.badge-glass {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+/* DIAGNOSTIC HUD OVERLAY STYLES */
+.debug-hud-overlay {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 9999;
+  background: rgba(10, 14, 23, 0.96);
+  border: 1px solid var(--accent-secondary);
+  box-shadow: 0 8px 32px rgba(0, 242, 254, 0.3);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 270px;
+  pointer-events: auto;
+}
+
+.hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 6px;
+  font-weight: 700;
+  color: var(--accent-secondary);
+}
+
+.hud-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.hud-close-btn:hover {
+  color: #ffffff;
+}
+
+.hud-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hud-label {
+  color: var(--text-secondary);
+}
+
+.hud-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.hud-val.highlight {
+  color: var(--accent-secondary);
+}
+
+.hud-val.tesla-detected {
+  color: #00E676;
+}

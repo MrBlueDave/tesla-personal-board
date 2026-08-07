@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#FFFFFF">
+        <path d="M64 20C40 20 32 36 32 52c0 12 6 22 16 28v12h32V80c10-6 16-16 16-28 0-16-8-32-32-32zm-8 24a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Lichess</text>
+</svg>

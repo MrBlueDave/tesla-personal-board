@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <path fill="#FF0000" d="M110 40c-1-5-5-9-10-10-9-3-44-3-44-3s-35 0-44 3c-5 1-9 5-10 10-3 9-3 28-3 28s0 19 3 28c1 5 5 9 10 10 9 3 44 3 44 3s35 0 44-3c5-1 9-5 10-10 3-9 3-28 3-28s0-19-3-28z"/>
+        <polygon fill="#FFFFFF" points="52,46 80,64 52,82"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">YouTube</text>
+</svg>

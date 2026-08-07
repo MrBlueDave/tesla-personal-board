@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#960000">
+        <path d="M64 16L24 32v32c0 26 40 48 40 48s40-22 40-48V32L64 16z"/>
+        <circle cx="64" cy="56" r="14" fill="#FFFFFF"/>
+        <circle cx="64" cy="56" r="8" fill="#960000"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Pi-hole</text>
+</svg>

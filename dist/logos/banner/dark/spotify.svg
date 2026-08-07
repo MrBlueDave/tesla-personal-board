@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <circle cx="64" cy="64" r="48" fill="#1DB954"/>
+        <path fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" d="M36 50c20-6 40-2 56 6M40 66c16-4 32-1 44 5M44 80c12-3 24 0 32 4"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">Spotify</text>
+</svg>

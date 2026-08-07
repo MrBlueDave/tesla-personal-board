@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <circle cx="50" cy="50" r="22" fill="#F05023"/>
+        <path fill="#4A90E2" d="M40 84c-11 0-20-9-20-20 0-9 6-17 15-19 3-10 12-17 23-17 13 0 24 10 24 23 6 1 12 6 12 13 0 8-7 15-15 15H40z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">AccuWeather</text>
+</svg>

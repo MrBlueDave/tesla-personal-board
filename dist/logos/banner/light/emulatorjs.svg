@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#8C52FF">
+        <rect x="20" y="32" width="88" height="64" rx="16"/>
+        <path d="M44 48v32M28 64h32" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="80" cy="56" r="6" fill="#FFFFFF"/>
+        <circle cx="92" cy="68" r="6" fill="#FFFFFF"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">EmulatorJS</text>
+</svg>

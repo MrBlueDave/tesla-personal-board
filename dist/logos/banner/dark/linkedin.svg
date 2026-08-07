@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g>
+        <rect x="20" y="20" width="88" height="88" rx="16" fill="#0A66C2"/>
+        <path fill="#FFFFFF" d="M36 48h14v44H36V48zm7-20a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm21 20h13v6h1c2-3 7-7 13-7 14 0 17 9 17 21v24H94V70c0-6 0-13-8-13-8 0-9 6-9 13v22H64V48z"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">LinkedIn</text>
+</svg>

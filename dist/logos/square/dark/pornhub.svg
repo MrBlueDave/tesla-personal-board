@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="256" height="256">
+  <g>
+        <rect x="16" y="36" width="96" height="56" rx="8" fill="#000000"/>
+        <rect x="60" y="42" width="46" height="44" rx="6" fill="#FFA300"/>
+        <text x="36" y="71" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#FFFFFF">Porn</text>
+        <text x="65" y="71" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#000000">hub</text>
+      </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="#FF5500">
+        <path d="M72 44c12 0 22 10 22 22s-10 22-22 22H32V58c0-8 6-14 14-14 3 0 7 1 9 3 4-8 11-13 17-13z"/>
+        <rect x="16" y="54" width="4" height="34" rx="2"/>
+        <rect x="24" y="48" width="4" height="40" rx="2"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">SoundCloud</text>
+</svg>

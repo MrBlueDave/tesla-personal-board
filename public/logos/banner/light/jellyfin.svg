@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <g transform="translate(20, 36) scale(1.0)">
+    <g fill="none" stroke="#00A4DC" stroke-width="12" stroke-linejoin="round">
+        <path d="M64 24L24 88h80L64 24z"/>
+        <path d="M64 48L44 88h40L64 48z" stroke="#AA5CC3"/>
+      </g>
+  </g>
+  <text x="170" y="122" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#111827">Jellyfin</text>
+</svg>
