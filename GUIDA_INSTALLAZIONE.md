@@ -4,29 +4,38 @@ Questa guida descrive i passaggi completi per installare e configurare la **Tesl
 
 ---
 
-## 📦 1. Requisiti di Sistema
-- **Node.js**: v18.x o v20.x+
-- **NPM**: v9.x+
-- **Cartella di destinazione consigliata**: `/var/www/tesla-board`
+## ⚡ Installazione Automatica (Consigliata - 1 Click)
+
+Sul container LXC pulito, esegui il seguente comando unico:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/MrBlueDave/tesla-personal-board/main/install.sh | bash
+```
 
 ---
 
-## 🛠️ 2. Installazione Rapida
+## 📦 1. Requisiti di Sistema
+- **Node.js**: v18.x o v20.x+
+- **NPM**: v9.x+
+- **Cartella di destinazione consigliata**: `/var/www/tesla-personal-board`
 
-1. **Estrai il pacchetto ZIP nella cartella di produzione**:
+---
+
+## 🛠️ 2. Installazione Manuale
+
+1. **Clona il repository o estrai il pacchetto nella cartella di produzione**:
    ```bash
-   mkdir -p /var/www/tesla-board
-   unzip Tesla-Personal-Board-Release.zip -d /var/www/tesla-board
-   cd /var/www/tesla-board
+   git clone https://github.com/MrBlueDave/tesla-personal-board.git /var/www/tesla-personal-board
+   cd /var/www/tesla-personal-board
    ```
 
 2. **Crea la cartella dati ed imposta i permessi di scrittura**:
    ```bash
-   mkdir -p /var/www/tesla-board/data
-   chmod -R 777 /var/www/tesla-board/data
+   mkdir -p /var/www/tesla-personal-board/data
+   chmod -R 777 /var/www/tesla-personal-board/data
    ```
 
-3. **Installazione dipendenze e Build (se non già presente dist/)**:
+3. **Installazione dipendenze e Build**:
    ```bash
    npm install
    npm run build
@@ -53,7 +62,7 @@ Crea il file di servizio systemd per mantenere l'applicazione sempre attiva in b
 
 1. **Apri/crea il file di servizio**:
    ```bash
-   nano /etc/systemd/system/tesla-board.service
+   nano /etc/systemd/system/tesla-personal-board.service
    ```
 
 2. **Inserisci la seguente configurazione**:
@@ -65,7 +74,7 @@ Crea il file di servizio systemd per mantenere l'applicazione sempre attiva in b
    [Service]
    Type=simple
    User=root
-   WorkingDirectory=/var/www/tesla-board
+   WorkingDirectory=/var/www/tesla-personal-board
    ExecStart=/usr/bin/node server.js
    Restart=always
    RestartSec=5
@@ -78,14 +87,14 @@ Crea il file di servizio systemd per mantenere l'applicazione sempre attiva in b
 3. **Abilita ed avvia il servizio**:
    ```bash
    systemctl daemon-reload
-   systemctl enable tesla-board.service
-   systemctl start tesla-board.service
+   systemctl enable tesla-personal-board.service
+   systemctl start tesla-personal-board.service
    ```
 
 4. **Verifica lo stato ed i log in tempo reale**:
    ```bash
-   systemctl status tesla-board.service
-   journalctl -u tesla-board.service -f -n 50
+   systemctl status tesla-personal-board.service
+   journalctl -u tesla-personal-board.service -f -n 50
    ```
 
 ---
@@ -94,7 +103,7 @@ Crea il file di servizio systemd per mantenere l'applicazione sempre attiva in b
 
 Se utilizzi Nginx Proxy Manager per accedere dall'esterno (es. con dominio SSL/HTTPS):
 - **Scheme**: `http`
-- **Forward IP**: IP interno del container LXC (es. `192.168.1.214`)
+- **Forward IP**: IP interno del container LXC (es. `192.168.1.233`)
 - **Forward Port**: `80` (o la porta configurata in PORT)
 - **Websockets Support**: Attivato
 

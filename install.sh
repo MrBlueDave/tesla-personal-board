@@ -23,8 +23,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-INSTALL_DIR="/var/www/tesla-board"
-REPO_URL="https://github.com/MrBlueDave/tesla-board.git"
+INSTALL_DIR="/var/www/tesla-personal-board"
+REPO_URL="https://github.com/MrBlueDave/tesla-personal-board.git"
 
 echo -e "${YELLOW}📋 Step 1/6: Updating system package repositories...${NC}"
 export DEBIAN_FRONTEND=noninteractive
@@ -98,9 +98,9 @@ npm install
 npm run build
 
 # Systemd Service Setup
-echo -e "${YELLOW}⚙️ Step 6/6: Configuring Systemd service (tesla-board.service)...${NC}"
+echo -e "${YELLOW}⚙️ Step 6/6: Configuring Systemd service (tesla-personal-board.service)...${NC}"
 NODE_BIN=$(which node || echo "/usr/bin/node")
-cat << EOF > /etc/systemd/system/tesla-board.service
+cat << EOF > /etc/systemd/system/tesla-personal-board.service
 [Unit]
 Description=Tesla Personal Board Production Server
 After=network.target
@@ -119,8 +119,8 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable tesla-board.service
-systemctl restart tesla-board.service
+systemctl enable tesla-personal-board.service
+systemctl restart tesla-personal-board.service
 
 # Get primary IP address
 SERVER_IP=$(hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip")
@@ -130,6 +130,6 @@ echo -e "${GREEN}🎉 Tesla Personal Board successfully installed & deployed!${N
 echo -e "${BLUE}==============================================================================${NC}"
 echo -e "🌐 Access Dashboard: ${GREEN}http://${SERVER_IP}${NC}"
 echo -e "🔑 Master Password:  ${YELLOW}tesla${NC}"
-echo -e "⚙️ Systemd Service:  ${GREEN}tesla-board.service (Active & Enabled on Boot)${NC}"
-echo -e "📊 Status Check:     ${YELLOW}systemctl status tesla-board.service${NC}"
+echo -e "⚙️ Systemd Service:  ${GREEN}tesla-personal-board.service (Active & Enabled on Boot)${NC}"
+echo -e "📊 Status Check:     ${YELLOW}systemctl status tesla-personal-board.service${NC}"
 echo -e "${BLUE}==============================================================================${NC}"

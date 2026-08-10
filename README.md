@@ -39,14 +39,14 @@ An ultra-fast, responsive, multi-user self-hosted personal board specifically en
 Run this single command on a clean Debian / Ubuntu / Proxmox LXC container to fully automate system dependencies (Node.js 20, Git, Build Tools), repository cloning, production build, and `systemd` background service auto-start:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/MrBlueDave/tesla-board/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/MrBlueDave/tesla-personal-board/main/install.sh | bash
 ```
 
 Or clone first and run locally:
 
 ```bash
-git clone https://github.com/MrBlueDave/tesla-board.git
-cd tesla-board
+git clone https://github.com/MrBlueDave/tesla-personal-board.git
+cd tesla-personal-board
 chmod +x install.sh
 sudo ./install.sh
 ```
@@ -58,8 +58,8 @@ sudo ./install.sh
 On Windows (CMD / PowerShell):
 
 ```cmd
-git clone https://github.com/MrBlueDave/tesla-board.git
-cd tesla-board
+git clone https://github.com/MrBlueDave/tesla-personal-board.git
+cd tesla-personal-board
 .\install.bat
 ```
 
@@ -71,8 +71,8 @@ If you prefer installing manually:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/MrBlueDave/tesla-board.git /var/www/tesla-board
-   cd /var/www/tesla-board
+   git clone https://github.com/MrBlueDave/tesla-personal-board.git /var/www/tesla-personal-board
+   cd /var/www/tesla-personal-board
    ```
 
 2. **Initialize data directory**:
@@ -105,13 +105,13 @@ The default master password for first-time browser login is stored in `data/conf
 
 To change the master password:
 - Edit `data/config.json` (e.g., `nano data/config.json`).
-- Restart the server (`systemctl restart tesla-board.service` or `npm start`).
+- Restart the server (`systemctl restart tesla-personal-board.service` or `npm start`).
 
 ---
 
 ## ⚙️ Systemd Service Configuration (Auto-Boot)
 
-The automated installer configures `/etc/systemd/system/tesla-board.service` automatically. Manual service configuration:
+The automated installer configures `/etc/systemd/system/tesla-personal-board.service` automatically. Manual service configuration:
 
 ```ini
 [Unit]
@@ -121,7 +121,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/var/www/tesla-board
+WorkingDirectory=/var/www/tesla-personal-board
 ExecStart=/usr/bin/node server.js
 Restart=always
 RestartSec=5
@@ -134,9 +134,9 @@ WantedBy=multi-user.target
 Enable and control the service:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable tesla-board.service
-sudo systemctl start tesla-board.service
-sudo systemctl status tesla-board.service
+sudo systemctl enable tesla-personal-board.service
+sudo systemctl start tesla-personal-board.service
+sudo systemctl status tesla-personal-board.service
 ```
 
 ---
