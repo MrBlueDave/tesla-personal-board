@@ -25,6 +25,16 @@ import {
   showAllInCategory
 } from './catalog.js';
 import { 
+  getLayoutDensity, 
+  setLayoutDensity,
+  getDashboardZoom,
+  setDashboardZoom,
+  getServicesDefaultZoom,
+  setServicesDefaultZoom,
+  getAutoDprEnabled,
+  setAutoDprEnabled
+} from './density.js';
+import { 
   getDarkThemePreset, 
   setDarkThemePreset, 
   getLightThemePreset, 
@@ -40,12 +50,12 @@ import { setLanguage, getLanguage, LANGUAGES, t } from './i18n.js';
 import {
   createIcons,
   ChevronDown, ChevronRight, Eye, EyeOff,
-  ArrowUp, ArrowDown, Trash2, X, Tv, Info, Settings, Plus, Save, RotateCcw
+  ArrowUp, ArrowDown, Trash2, X, Tv, Info, Settings, Plus, Save, RotateCcw, RotateCw, ExternalLink, Globe
 } from 'lucide';
 
 const usedIcons = {
   ChevronDown, ChevronRight, Eye, EyeOff,
-  ArrowUp, ArrowDown, Trash2, X, Tv, Info, Settings, Plus, Save, RotateCcw
+  ArrowUp, ArrowDown, Trash2, X, Tv, Info, Settings, Plus, Save, RotateCcw, RotateCw, ExternalLink, Globe
 };
 
 let editingAppId = null;
@@ -137,6 +147,8 @@ export function openLinkModal(app = null) {
     document.getElementById('form-wide-logo-url').value = app.wideLogoUrl || '';
     document.getElementById('form-icon').value = app.icon || '';
     document.getElementById('form-color').value = app.backgroundColor || '#1f2937';
+    const scaleSelect = document.getElementById('form-scale');
+    if (scaleSelect) scaleSelect.value = app.scale ? String(app.scale) : '1.0';
   } else {
     editingAppId = null;
     editingAppIsSystem = false;
@@ -147,6 +159,8 @@ export function openLinkModal(app = null) {
 
     form.reset();
     document.getElementById('form-color').value = '#1f2937';
+    const scaleSelect = document.getElementById('form-scale');
+    if (scaleSelect) scaleSelect.value = '1.0';
   }
 
   modal.classList.add('active');
@@ -257,6 +271,8 @@ export function handleSaveLink(event) {
   const wideLogoUrl = document.getElementById('form-wide-logo-url').value.trim();
   const icon = document.getElementById('form-icon').value.trim() || 'globe';
   const bgColor = document.getElementById('form-color').value || '#1f2937';
+  const scaleSelect = document.getElementById('form-scale');
+  const scaleVal = scaleSelect ? parseFloat(scaleSelect.value) : 1.0;
 
   if (!title || !url) {
     showToast(t('modalErrorRequired'), 'error');
@@ -275,7 +291,8 @@ export function handleSaveLink(event) {
     customLogoUrl,
     wideLogoUrl,
     icon,
-    backgroundColor: bgColor
+    backgroundColor: bgColor,
+    scale: isNaN(scaleVal) ? 1.0 : scaleVal
   };
 
   if (editingAppId) {
@@ -456,7 +473,140 @@ export function openSettingsModal() {
   populateThemeDropdowns();
   populateSettingsCheckboxes();
   renderCategoryOrderList();
+  initSettingsAccordions();
 
+  modal.classList.add('active');
+}
+
+function initSettingsAccordions() {
+  const modal = document.getElementById('settings-modal');
+  if (!modal) return;
+  modal.querySelectorAll('.settings-accordion-header').forEach(header => {
+    header.onclick = () => {
+      const card = header.closest('.settings-accordion-card');
+      if (!card) return;
+      const isAlreadyActive = card.classList.contains('active');
+      modal.querySelectorAll('.settings-accordion-card').forEach(c => c.classList.remove('active'));
+      if (!isAlreadyActive) {
+        card.classList.add('active');
+      }
+    };
+  });
+}
+
+let topbarTimer = null;
+
+export function openServiceViewer(appData, targetUrl) {
+  const modal = document.getElementById('service-viewer-modal');
+  const iframe = document.getElementById('service-viewer-iframe');
+  const topbar = document.getElementById('service-viewer-topbar');
+  const handle = document.getElementById('service-topbar-handle');
+  const titleEl = document.getElementById('service-topbar-title');
+  const iconBox = document.getElementById('service-topbar-icon-box');
+  const zoomSlider = document.getElementById('service-live-zoom-slider');
+  const zoomVal = document.getElementById('service-live-zoom-val');
+  const refreshBtn = document.getElementById('service-refresh-btn');
+  const newtabBtn = document.getElementById('service-newtab-btn');
+  const hideBtn = document.getElementById('service-hide-topbar-btn');
+  const closeBtn = document.getElementById('service-close-btn');
+
+  if (!modal || !iframe) {
+    if (targetUrl) window.open(targetUrl, '_blank');
+    return;
+  }
+
+  const appTitle = appData ? (appData.title || 'Servizio') : 'Servizio';
+  if (titleEl) titleEl.innerText = appTitle;
+
+  // App Logo/Icon
+  if (iconBox) {
+    if (appData && appData.icon) {
+      iconBox.innerHTML = `<i data-lucide="${appData.icon}"></i>`;
+      createIcons({ icons: usedIcons, root: iconBox });
+    } else {
+      iconBox.innerHTML = `<i data-lucide="globe"></i>`;
+      createIcons({ icons: usedIcons, root: iconBox });
+    }
+  }
+
+  // Zoom logic
+  const defaultZoom = getServicesDefaultZoom();
+  const serviceZoom = (appData && appData.scale) ? Math.round(appData.scale * 100) : defaultZoom;
+  
+  const applyIframeZoom = (val) => {
+    if (!iframe) return;
+    const factor = val / 100;
+    iframe.style.transform = `scale(${factor})`;
+    iframe.style.width = `${(100 / factor).toFixed(2)}%`;
+    iframe.style.height = `${(100 / factor).toFixed(2)}%`;
+    if (zoomVal) zoomVal.innerText = `${val}%`;
+  };
+
+  if (zoomSlider) {
+    zoomSlider.value = serviceZoom;
+    applyIframeZoom(serviceZoom);
+    zoomSlider.oninput = (e) => {
+      applyIframeZoom(parseInt(e.target.value, 10));
+    };
+  } else {
+    applyIframeZoom(serviceZoom);
+  }
+
+  // Set iframe source
+  iframe.src = targetUrl;
+
+  // Auto-hide topbar logic (1.5 SECONDS)
+  const showTopbar = () => {
+    if (topbar) topbar.classList.remove('is-hidden');
+    if (topbarTimer) clearTimeout(topbarTimer);
+    topbarTimer = setTimeout(() => {
+      if (topbar) topbar.classList.add('is-hidden');
+    }, 1500);
+  };
+
+  showTopbar();
+
+  if (handle) {
+    handle.onclick = () => showTopbar();
+  }
+
+  // Hover or touch near top edge
+  modal.onmousemove = (e) => {
+    if (e.clientY <= 50) showTopbar();
+  };
+  modal.ontouchstart = (e) => {
+    if (e.touches && e.touches[0] && e.touches[0].clientY <= 60) showTopbar();
+  };
+
+  if (refreshBtn) {
+    refreshBtn.onclick = () => {
+      iframe.src = targetUrl;
+      showToast('Ricarica servizio in corso...', 'info');
+    };
+  }
+
+  if (newtabBtn) {
+    newtabBtn.onclick = () => {
+      window.open(targetUrl, '_blank');
+    };
+  }
+
+  if (hideBtn) {
+    hideBtn.onclick = () => {
+      if (topbar) topbar.classList.add('is-hidden');
+      if (topbarTimer) clearTimeout(topbarTimer);
+    };
+  }
+
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      modal.classList.remove('active');
+      iframe.src = 'about:blank';
+      if (topbarTimer) clearTimeout(topbarTimer);
+    };
+  }
+
+  createIcons({ icons: usedIcons, root: modal });
   modal.classList.add('active');
 }
 
@@ -512,6 +662,11 @@ function populateThemeDropdowns() {
 function populateSettingsCheckboxes() {
   const bgCheckbox = document.getElementById('toggle-animated-bg-checkbox');
   const debugCheckbox = document.getElementById('toggle-debug-hud-checkbox');
+  const dashSlider = document.getElementById('dashboard-zoom-slider');
+  const dashVal = document.getElementById('dashboard-zoom-val');
+  const servSlider = document.getElementById('services-zoom-slider');
+  const servVal = document.getElementById('services-zoom-val');
+  const autoDprCheckbox = document.getElementById('toggle-auto-dpr-checkbox');
 
   if (bgCheckbox) {
     bgCheckbox.checked = isAnimatedBgEnabled();
@@ -521,6 +676,35 @@ function populateSettingsCheckboxes() {
   if (debugCheckbox) {
     debugCheckbox.checked = isDebugHudEnabled();
     debugCheckbox.onchange = (e) => setDebugHudEnabled(e.target.checked);
+  }
+
+  if (dashSlider) {
+    const curZoom = getDashboardZoom();
+    dashSlider.value = curZoom;
+    if (dashVal) dashVal.innerText = `${curZoom}%`;
+    dashSlider.oninput = (e) => {
+      const val = setDashboardZoom(e.target.value);
+      if (dashVal) dashVal.innerText = `${val}%`;
+      if (renderGridCallback) renderGridCallback();
+    };
+  }
+
+  if (servSlider) {
+    const curServZoom = getServicesDefaultZoom();
+    servSlider.value = curServZoom;
+    if (servVal) servVal.innerText = `${curServZoom}%`;
+    servSlider.oninput = (e) => {
+      const val = setServicesDefaultZoom(e.target.value);
+      if (servVal) servVal.innerText = `${val}%`;
+    };
+  }
+
+  if (autoDprCheckbox) {
+    autoDprCheckbox.checked = getAutoDprEnabled();
+    autoDprCheckbox.onchange = (e) => {
+      setAutoDprEnabled(e.target.checked);
+      if (renderGridCallback) renderGridCallback();
+    };
   }
 }
 
@@ -611,7 +795,7 @@ function renderCategoryOrderList() {
  */
 export function handleExportConfig() {
   const fullBackup = {
-    version: '0.7.6',
+    version: '0.9.0',
     exportDate: new Date().toISOString(),
     profiles: JSON.parse(localStorage.getItem('tesla_board_user_profiles') || '{}'),
     activePin: localStorage.getItem('tesla_board_active_pin') || '0000',

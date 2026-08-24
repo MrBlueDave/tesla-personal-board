@@ -2,6 +2,8 @@
  * DIAGNOSTIC HUD OVERLAY & TESLA VEHICLE METRICS MONITOR
  */
 
+import { getLayoutDensity, isTesla2026Mode } from './density.js';
+
 const STORAGE_KEY_DEBUG_HUD = 'tesla_board_debug_hud';
 
 export function isDebugHudEnabled() {
@@ -80,6 +82,9 @@ export function initDebugHud() {
     }
 
     const m = getClientMetrics();
+    const isTesla2026 = isTesla2026Mode();
+    const densityMode = getLayoutDensity();
+
     hudContainer.style.display = 'flex';
     hudContainer.innerHTML = `
       <div class="hud-header">
@@ -97,7 +102,11 @@ export function initDebugHud() {
         </div>
         <div class="hud-row">
           <span class="hud-label">Scale DPR:</span>
-          <span class="hud-val highlight">${m.dpr}x</span>
+          <span class="hud-val highlight">${m.dpr}x ${isTesla2026 ? '(Tesla 2026.26 ⚡)' : ''}</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-label">Densità GUI:</span>
+          <span class="hud-val highlight">${densityMode.toUpperCase()} (${isTesla2026 ? 'COMPATTO' : 'STANDARD'})</span>
         </div>
         <div class="hud-row">
           <span class="hud-label">Browser Client:</span>

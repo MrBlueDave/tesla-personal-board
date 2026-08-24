@@ -16,7 +16,7 @@ import {
 } from './catalog.js';
 import { getYouTubeRedirectUrl, getLogoUrl, showToast } from './utils.js';
 import { isEffectiveThemeLight } from './theme.js';
-import { openLinkModal, showConfirmModal } from './modal.js';
+import { openLinkModal, showConfirmModal, openServiceViewer } from './modal.js';
 import { t, updateDOMTranslations } from './i18n.js';
 import { createIcons, Star, Search, SearchX, Plus, Globe, X } from 'lucide';
 
@@ -280,7 +280,6 @@ function renderAppIconsView(container, items, globalMode, fullCatalog, sortMode,
           const svgLogoUrl = getLogoUrl(app, isLight, 'svg');
           const hasLucideIcon = !!app.icon;
           const bgStyle = (app.bgColor && app.bgColor !== 'transparent') ? app.bgColor : 'rgba(255, 255, 255, 0.06)';
-
           return `
             <div class="app-squircle-tile" data-id="${app.id}">
               <!-- TOP-LEFT RED DELETE BADGE (EDIT MODE) -->
@@ -352,7 +351,14 @@ function bindTileEvents(container, fullCatalog) {
       }
 
       const targetUrl = box.getAttribute('data-primary-url');
-      if (targetUrl) window.open(targetUrl, '_blank');
+      if (!targetUrl) return;
+
+      const isPrimaryFullscreen = (getGlobalOpenMode() === 'fullscreen');
+      if (isPrimaryFullscreen || targetUrl.includes('youtube.com/redirect')) {
+        window.open(targetUrl, '_blank');
+      } else {
+        openServiceViewer(appData, targetUrl);
+      }
     };
 
     let touchStartX = 0;

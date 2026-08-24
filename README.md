@@ -1,4 +1,4 @@
-# 🚀 Tesla Personal Board v0.8.3 — Self-Hosted Automotive Dashboard
+# 🚀 Tesla Personal Board v0.9.1 — Self-Hosted Automotive Dashboard
 
 An ultra-fast, responsive, multi-user self-hosted personal board specifically engineered and UI-optimized for **Tesla Vehicle Touchscreens** (1180x919 viewport), tablets, desktop, and mobile browsers.
 
@@ -9,6 +9,7 @@ An ultra-fast, responsive, multi-user self-hosted personal board specifically en
 ## 🌟 Key Features
 
 - **Automotive Touch Optimized**: Minimum 48x48px touch targets, zero backdrop-blur GPU overhead, high-contrast typography, and native touch spring press feedback.
+- **Tesla Summer 2026 DPI Scale Selector**: Independent DPI / display scale selector per launched service (non-fullscreen mode), engineered specifically to adapt to Tesla's Summer 2026 browser viewport update.
 - **Master Password Security**: First-time browser authentication lock screen with a Tesla-style PIN keypad. Includes a zero-latency synchronous head guard (**0ms FOUC flicker**).
 - **Multi-User PIN Profiles**: Supports switching profiles on the fly with real-time cross-browser disk synchronization (`/api/profiles`).
 - **8 Automotive Themes**:

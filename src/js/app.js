@@ -1,9 +1,10 @@
 /**
- * MAIN APPLICATION ORCHESTRATOR FOR TESLA PERSONAL BOARD v0.8.3
+ * MAIN APPLICATION ORCHESTRATOR FOR TESLA PERSONAL BOARD v0.9.0
  * Supports real-time cross-browser profile server disk sync & URL PIN parameter.
  */
 
 import { initThemeEngine, getThemeMode, setThemeMode } from './theme.js';
+import { initDensityEngine } from './density.js';
 import { updateDOMTranslations, t } from './i18n.js';
 import { startLiveClock } from './clock.js';
 import { fetchLiveWeather, initGeolocation } from './weather.js';
@@ -73,6 +74,9 @@ function debounce(fn, ms) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // -2. Initialize Tesla 2026.26 Layout Density Compensator
+  initDensityEngine();
+
   // -1. Initialize Master Authentication System & Tesla Lock Screen
   await initAuthSystem();
 

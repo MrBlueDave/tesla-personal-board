@@ -1,4 +1,4 @@
-# 🚀 Tesla Personal Board v0.8.3 — Guida all'Installazione su Proxmox LXC / Linux
+# 🚀 Tesla Personal Board v0.9.1 — Guida all'Installazione su Proxmox LXC / Linux
 
 Questa guida descrive i passaggi completi per installare e configurare la **Tesla Personal Board** su un container LXC (Debian/Ubuntu) in Proxmox o qualsiasi server Linux con Node.js.
 

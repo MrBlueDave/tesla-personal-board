@@ -362,20 +362,9 @@ body.edit-mode-active .edit-delete-badge {
   .header-actions {
     gap: 3px;
   }
-  .brand-title span {
-    display: none;
-  }
 }
 
 @media (max-width: 1080px) {
-  .clock-date {
-    display: none;
-  }
-
-  .brand-title span {
-    display: none;
-  }
-
   .header-bar {
     padding: 0 8px;
   }
@@ -523,7 +512,7 @@ body.edit-mode-active .edit-delete-badge {
   overflow: hidden;
   transform: scale(0.95);
   transition: transform var(--transition-normal);
-  max-height: 88vh;
+  max-height: 84vh;
   position: relative;
 }
 
@@ -572,6 +561,31 @@ body.edit-mode-active .edit-delete-badge {
   background: var(--accent-primary) !important;
   border-color: var(--accent-primary) !important;
   color: #ffffff !important;
+}
+
+/* FLEXBODY & STICKY FOOTER PREVENTING BUTTON CLIPPING AT ALL DPI SCALES */
+.modal-header {
+  flex-shrink: 0 !important;
+}
+
+.modal-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  padding: 18px 22px !important;
+}
+
+.modal-footer {
+  flex-shrink: 0 !important;
+  padding: 14px 22px !important;
+  border-top: 1px solid var(--glass-border) !important;
+  background: var(--bg-secondary) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  z-index: 10 !important;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25) !important;
 }
 
 /* ==========================================================================
@@ -800,11 +814,11 @@ body.edit-mode-active .edit-delete-badge {
   background: rgba(255, 255, 255, 0.16);
 }
 
-/* 3px ULTRA-COMPACT HORIZONTAL GAP (-50% SPACING) */
+/* OPTIMIZED NON-OVERLAPPING IOS GRID DISPLAY WITH PROPER TILE SPACING */
 .icons-row-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
-  gap: 16px 3px;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(124px, 11vw, 136px), 1fr));
+  gap: 20px 14px;
 }
 
 /* APP SQUIRCLE TILE WITH NATIVE IOS TOUCH SPRING PHYSICS */
@@ -819,6 +833,8 @@ body.edit-mode-active .edit-delete-badge {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  transform: scale(var(--item-scale, 1.0));
+  transform-origin: center center;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -1588,4 +1604,192 @@ html.needs-auth .auth-lock-overlay,
   background: #ffffff !important;
   border-color: var(--glass-border) !important;
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2) !important;
+}
+
+/* ==========================================================================
+   SETTINGS COMPACT ACCORDION CARDS (EXPANDABLE ON DEMAND)
+   ========================================================================== */
+.settings-modal-body {
+  padding: 16px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: calc(88vh - 120px) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.settings-accordion-card {
+  flex: 0 0 auto !important;
+  flex-shrink: 0 !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  overflow: hidden;
+  margin-bottom: 4px;
+  transition: border-color var(--transition-fast);
+}
+
+.settings-accordion-card.active {
+  border-color: var(--accent-secondary);
+}
+
+.settings-accordion-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-accordion-header:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.accordion-chevron {
+  transition: transform var(--transition-fast);
+  color: var(--text-secondary);
+}
+
+.settings-accordion-card.active .accordion-chevron {
+  transform: rotate(180deg);
+  color: var(--accent-secondary);
+}
+
+.settings-accordion-body {
+  display: none;
+  padding: 16px 18px;
+  border-top: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.settings-accordion-card.active .settings-accordion-body {
+  display: block;
+}
+
+/* ==========================================================================
+   IN-APP SERVICE VIEWER WITH RETRACTABLE TOPBAR (TOPBAR A SCOMPARSA)
+   ========================================================================== */
+.service-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.service-viewer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.service-viewer-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #000000;
+  overflow: hidden;
+}
+
+/* RETRACTABLE TOPBAR */
+.service-viewer-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: rgba(13, 14, 18, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.service-viewer-topbar.is-hidden {
+  transform: translateY(-100%);
+}
+
+.service-topbar-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.service-topbar-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.service-topbar-name {
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.service-topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* TOUCH HANDLE PILL TO BRING TOPBAR BACK */
+.service-topbar-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  z-index: 99;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  opacity: 0.7;
+}
+
+.service-topbar-handle:hover {
+  opacity: 1;
+  background: var(--accent-primary);
+}
+
+.service-viewer-content {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  background: #000000;
+  overflow: hidden;
+}
+
+#service-viewer-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #ffffff;
+  transform-origin: top left;
 }

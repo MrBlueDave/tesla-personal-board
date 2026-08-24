@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Tesla Personal Board v0.8.3 | Home Dashboard</title>
-  <meta name="description" content="Simple Personal Dashboard self-hosted per Tesla v0.8.3. Lancia app e servizi in modalità standard o a schermo intero via YouTube redirect." />
+  <title>Tesla Personal Board v0.9.0 | Home Dashboard</title>
+  <meta name="description" content="Simple Personal Dashboard self-hosted per Tesla v0.9.0. Lancia app e servizi in modalità standard o a schermo intero via YouTube redirect." />
   <meta name="theme-color" content="#0d0e12" />
 
   <!-- FAVICON -->
@@ -49,8 +49,8 @@
       } catch(e) {}
     })();
   </script>
-  <script type="module" crossorigin src="/assets/index-C303Q82G.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BA7bMecX.css">
+  <script type="module" crossorigin src="/assets/index-eiVLmeZx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BQfYVf-M.css">
 </head>
 <body>
   <!-- VIBRANT DYNAMIC ANIMATED BACKGROUND ORBS LAYER -->
@@ -68,22 +68,7 @@
         <img src="/logotesla.png" class="tesla-logo-img" alt="Tesla Logo" />
         <div class="brand-title">
           <h1 data-i18n="brandTitle" class="tesla-font-title">TESLA BOARD</h1>
-          <span class="tesla-font-sub"><span data-i18n="brandSubtitle">SIMPLE PERSONAL DASHBOARD</span> v0.8.3</span>
-        </div>
-      </div>
-
-      <!-- CENTER WIDGETS (EQUAL HEIGHT AS ACTION BUTTONS) -->
-      <div class="header-center">
-        <!-- LIVE CLOCK -->
-        <div class="clock-widget header-widget-height" id="clock-widget">
-          <div class="clock-time" id="clock-time">12:00</div>
-          <div class="clock-date" id="clock-date">LUNEDÌ, 4 AGOSTO</div>
-        </div>
-
-        <!-- LIVE WEATHER (ONLY ICON & TEMP) -->
-        <div class="weather-widget header-widget-height" id="weather-widget" title="Meteo in tempo reale (Open-Meteo)">
-          <i data-lucide="sun" id="weather-icon"></i>
-          <div class="weather-temp" id="weather-temp">--°C</div>
+          <span class="tesla-font-sub"><span data-i18n="brandSubtitle">SIMPLE PERSONAL DASHBOARD</span> v0.9.1</span>
         </div>
       </div>
 
@@ -372,14 +357,27 @@
               <button type="button" class="swatch-btn" data-color="transparent" style="background: rgba(255,255,255,0.08); color: #fff;" title="Vetro Trasparente">Nessuno</button>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 4px;">
               <div class="form-group">
-                <label class="form-label" for="form-icon" data-i18n="formIconFallback">Nome Icona Lucide (Fallback)</label>
-                <input type="text" id="form-icon" class="form-input" placeholder="es. tv, film, music, home, globe" />
+                <label class="form-label" for="form-icon" data-i18n="formIconFallback">Icona Lucide</label>
+                <input type="text" id="form-icon" class="form-input" placeholder="es. tv, music, home" />
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="form-color" data-i18n="formColorPicker">Selettore Colore Custom</label>
+                <label class="form-label" for="form-scale">Scala / Zoom Servizio</label>
+                <select id="form-scale" class="form-select">
+                  <option value="0.7">70% (Minimo)</option>
+                  <option value="0.8">80% (Molto Compatto)</option>
+                  <option value="0.9">90% (Compatto)</option>
+                  <option value="1.0">100% (Predefinito)</option>
+                  <option value="1.1">110% (Ingrandito)</option>
+                  <option value="1.2">120% (Grande)</option>
+                  <option value="1.3">130% (Massimo)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="form-color" data-i18n="formColorPicker">Colore Custom</label>
                 <input type="color" id="form-color" class="form-input" value="#1f2937" style="height: 44px; padding: 4px;" />
               </div>
             </div>
@@ -442,104 +440,154 @@
       </div>
 
       <div class="modal-body settings-modal-body">
-        <!-- CARD 1: LINGUA & TEMI VISIVI -->
-        <div class="settings-card">
-          <div class="settings-card-title">
-            <i data-lucide="palette"></i>
-            <span>Lingua & Temi Visivi</span>
+        <!-- CARD 1: REGOLE DPI & ZOOM DISPLAY (Espanso di default) -->
+        <div class="settings-accordion-card active">
+          <div class="settings-accordion-header">
+            <div class="settings-card-title">
+              <i data-lucide="sliders"></i>
+              <span>Regolazione DPI & Zoom Display</span>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron"></i>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" data-i18n="selectLang">Lingua Interfaccia</label>
-            <select id="language-select" class="form-select">
-              <!-- Rendered by JS -->
-            </select>
+          <div class="settings-accordion-body">
+            <!-- DASHBOARD DPI / ZOOM SLIDER -->
+            <div class="form-group" style="margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <label class="form-label" for="dashboard-zoom-slider" style="margin: 0;">🔍 Zoom DPI Dashboard Generale</label>
+                <span id="dashboard-zoom-val" style="font-family: var(--font-mono); font-weight: 800; color: var(--accent-secondary); font-size: 0.95rem;">100%</span>
+              </div>
+              <input type="range" id="dashboard-zoom-slider" class="form-range" min="70" max="130" step="1" value="100" />
+            </div>
+
+            <!-- SERVICES DEFAULT ZOOM SLIDER -->
+            <div class="form-group" style="margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <label class="form-label" for="services-zoom-slider" style="margin: 0;">🖥️ Zoom Predefinito Servizi (Non Fullscreen)</label>
+                <span id="services-zoom-val" style="font-family: var(--font-mono); font-weight: 800; color: var(--accent-secondary); font-size: 0.95rem;">100%</span>
+              </div>
+              <input type="range" id="services-zoom-slider" class="form-range" min="70" max="130" step="1" value="100" />
+            </div>
+
+            <div class="settings-toggle-row">
+              <div class="settings-toggle-info">
+                <span class="toggle-title">🚗 Rilevamento Automatico Tesla DPR (Tesla 2026.26)</span>
+                <span class="toggle-desc">Compensa automaticamente il DPR ~1.53x sui browser di bordo Tesla MCU</span>
+              </div>
+              <label class="ios-switch">
+                <input type="checkbox" id="toggle-auto-dpr-checkbox" checked />
+                <span class="ios-slider"></span>
+              </label>
+            </div>
+
+            <div class="settings-toggle-row">
+              <div class="settings-toggle-info">
+                <span class="toggle-title">⚡ HUD Diagnostica Viewport & DPI</span>
+                <span class="toggle-desc">Mostra il badge overlay di monitoraggio risoluzione schermo Tesla</span>
+              </div>
+              <label class="ios-switch">
+                <input type="checkbox" id="toggle-debug-hud-checkbox" />
+                <span class="ios-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: LINGUA & TEMI VISIVI -->
+        <div class="settings-accordion-card">
+          <div class="settings-accordion-header">
+            <div class="settings-card-title">
+              <i data-lucide="palette"></i>
+              <span>Lingua & Temi Visivi</span>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron"></i>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px;">
+          <div class="settings-accordion-body">
             <div class="form-group">
-              <label class="form-label" data-i18n="themePresetDark">Preset Tema Scuro</label>
-              <select id="dark-theme-select" class="form-select">
+              <label class="form-label" data-i18n="selectLang">Lingua Interfaccia</label>
+              <select id="language-select" class="form-select">
                 <!-- Rendered by JS -->
               </select>
             </div>
 
-            <div class="form-group">
-              <label class="form-label" data-i18n="themePresetLight">Preset Tema Chiaro</label>
-              <select id="light-theme-select" class="form-select">
-                <!-- Rendered by JS -->
-              </select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px;">
+              <div class="form-group">
+                <label class="form-label" data-i18n="themePresetDark">Preset Tema Scuro</label>
+                <select id="dark-theme-select" class="form-select">
+                  <!-- Rendered by JS -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="themePresetLight">Preset Tema Chiaro</label>
+                <select id="light-theme-select" class="form-select">
+                  <!-- Rendered by JS -->
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-toggle-row" style="margin-top: 10px;">
+              <div class="settings-toggle-info">
+                <span class="toggle-title" data-i18n="toggleAnimatedBg">Sfondo Animato Dinamico</span>
+                <span class="toggle-desc">Attiva le sfere luminose a gradiente in movimento sullo sfondo</span>
+              </div>
+              <label class="ios-switch">
+                <input type="checkbox" id="toggle-animated-bg-checkbox" />
+                <span class="ios-slider"></span>
+              </label>
             </div>
           </div>
         </div>
 
-        <!-- CARD 2: ORDINAMENTO & VISIBILITÀ CATEGORIE -->
-        <div class="settings-card">
-          <div class="settings-card-title">
-            <i data-lucide="folder-tree"></i>
-            <span data-i18n="catOrderTitle">Ordinamento & Visibilità Categorie Dashboard</span>
-          </div>
-          <span style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;" data-i18n="catOrderSubtitle">Sposta le categorie per personalizzarne la sequenza visiva ed attiva/disattiva la visibilità nella GUI</span>
-          
-          <div id="category-order-list" class="cat-order-list" style="margin-top: 10px;">
-            <!-- Rendered dynamically by JS -->
-          </div>
-        </div>
-
-        <!-- CARD 3: OPZIONI & TOGGLES COMPORTAMENTO -->
-        <div class="settings-card">
-          <div class="settings-card-title">
-            <i data-lucide="sliders"></i>
-            <span>Comportamento & Display</span>
-          </div>
-
-          <div class="settings-toggle-row">
-            <div class="settings-toggle-info">
-              <span class="toggle-title" data-i18n="toggleAnimatedBg">Sfondo Animato Dinamico</span>
-              <span class="toggle-desc">Attiva le sfere luminose a gradiente in movimento sullo sfondo</span>
+        <!-- CARD 3: ORDINAMENTO & VISIBILITÀ CATEGORIE -->
+        <div class="settings-accordion-card">
+          <div class="settings-accordion-header">
+            <div class="settings-card-title">
+              <i data-lucide="folder-tree"></i>
+              <span data-i18n="catOrderTitle">Ordinamento & Visibilità Categorie Dashboard</span>
             </div>
-            <label class="ios-switch">
-              <input type="checkbox" id="toggle-animated-bg-checkbox" />
-              <span class="ios-slider"></span>
-            </label>
+            <i data-lucide="chevron-down" class="accordion-chevron"></i>
           </div>
 
-          <div class="settings-toggle-row">
-            <div class="settings-toggle-info">
-              <span class="toggle-title">⚡ HUD Diagnostica Viewport & DPI</span>
-              <span class="toggle-desc">Mostra il badge overlay di monitoraggio risoluzione schermo Tesla</span>
-            </div>
-            <label class="ios-switch">
-              <input type="checkbox" id="toggle-debug-hud-checkbox" />
-              <span class="ios-slider"></span>
-            </label>
-          </div>
-        </div>
-
-        <!-- CARD 4: BACKUP, RIPRISTINO & DEFAULT -->
-        <div class="settings-card">
-          <div class="settings-card-title">
-            <i data-lucide="database"></i>
-            <span data-i18n="backupRestore">Backup & Manutenzione Dati</span>
-          </div>
-
-          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px;">
-            <button class="btn btn-glass" id="export-json-btn">
-              <i data-lucide="download"></i> <span data-i18n="btnExport">Esporta Tutti i Profili JSON</span>
-            </button>
+          <div class="settings-accordion-body">
+            <span style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;" data-i18n="catOrderSubtitle">Sposta le categorie per personalizzarne la sequenza visiva ed attiva/disattiva la visibilità nella GUI</span>
             
-            <label class="btn btn-glass" style="margin: 0; cursor: pointer;">
-              <i data-lucide="upload"></i> <span data-i18n="btnImport">Importa Tutti i Profili JSON</span>
-              <input type="file" id="import-json-input" accept=".json" style="display: none;" />
-            </label>
+            <div id="category-order-list" class="cat-order-list" style="margin-top: 10px;">
+              <!-- Rendered dynamically by JS -->
+            </div>
+          </div>
+        </div>
 
-            <button class="btn btn-glass" id="lock-browser-btn" style="border-color: rgba(0, 242, 254, 0.4); color: var(--accent-secondary);">
-              <i data-lucide="lock"></i> <span>Blocca Schermo Browser</span>
-            </button>
+        <!-- CARD 4: BACKUP & MANUTENZIONE DATI -->
+        <div class="settings-accordion-card">
+          <div class="settings-accordion-header">
+            <div class="settings-card-title">
+              <i data-lucide="database"></i>
+              <span data-i18n="backupRestore">Backup & Manutenzione Dati</span>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron"></i>
+          </div>
 
-            <button class="btn btn-glass" id="reset-default-btn" style="border-color: rgba(232,33,39,0.4); color: #ff4d4d; margin-left: auto;">
-              <i data-lucide="rotate-ccw"></i> <span data-i18n="btnResetDefault">Ripristina Catalogo Iniziale</span>
-            </button>
+          <div class="settings-accordion-body">
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 6px;">
+              <button class="btn btn-glass" id="export-json-btn">
+                <i data-lucide="download"></i> <span data-i18n="btnExport">Esporta Tutti i Profili JSON</span>
+              </button>
+              
+              <label class="btn btn-glass" style="margin: 0; cursor: pointer;">
+                <i data-lucide="upload"></i> <span data-i18n="btnImport">Importa Tutti i Profili JSON</span>
+                <input type="file" id="import-json-input" accept=".json" style="display: none;" />
+              </label>
+
+              <button class="btn btn-glass" id="lock-browser-btn" style="border-color: rgba(0, 242, 254, 0.4); color: var(--accent-secondary);">
+                <i data-lucide="lock"></i> <span>Blocca Schermo Browser</span>
+              </button>
+
+              <button class="btn btn-glass" id="reset-default-btn" style="border-color: rgba(232,33,39,0.4); color: #ff4d4d; margin-left: auto;">
+                <i data-lucide="rotate-ccw"></i> <span data-i18n="btnResetDefault">Ripristina Catalogo Iniziale</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -588,6 +636,62 @@
 
       <div class="auth-lock-footer-hint">
         <span>Password predefinita: <code style="color: var(--accent-secondary);">tesla</code> • Modificabile in <code style="color: var(--text-primary);">data/config.json</code></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: IN-APP SERVICE VIEWER WITH RETRACTABLE TOPBAR (TOPBAR A SCOMPARSA)
+       ========================================================================== -->
+  <div class="service-viewer-overlay" id="service-viewer-modal" role="dialog" aria-modal="true">
+    <div class="service-viewer-container">
+      <!-- RETRACTABLE TOPBAR -->
+      <div class="service-viewer-topbar" id="service-viewer-topbar">
+        <div class="service-topbar-info">
+          <div id="service-topbar-icon-box" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i data-lucide="globe" id="service-topbar-lucide"></i>
+          </div>
+          <span id="service-topbar-title" class="service-topbar-name">Nome Servizio</span>
+        </div>
+
+        <div class="service-topbar-controls">
+          <!-- LIVE SERVICE ZOOM SLIDER -->
+          <div class="service-zoom-box" style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid var(--glass-border);">
+            <span class="service-zoom-label" style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary);">Zoom:</span>
+            <input type="range" id="service-live-zoom-slider" class="form-range" min="70" max="130" step="1" value="100" style="width: 100px;" />
+            <span id="service-live-zoom-val" style="font-family: var(--font-mono); font-weight: 800; color: var(--accent-secondary); font-size: 0.88rem;">100%</span>
+          </div>
+
+          <!-- REFRESH IFRAME -->
+          <button class="btn btn-glass btn-icon" id="service-refresh-btn" title="Ricarica pagina servizio">
+            <i data-lucide="rotate-cw"></i>
+          </button>
+
+          <!-- OPEN IN NEW TAB FALLBACK -->
+          <button class="btn btn-glass" id="service-newtab-btn" title="Apri in nuova scheda se il sito blocca l'iframe">
+            <i data-lucide="external-link"></i> <span>Nuova Scheda</span>
+          </button>
+
+          <!-- NASCONDI BARRA IMMEDIATAMENTE -->
+          <button class="btn btn-glass btn-icon" id="service-hide-topbar-btn" title="Nascondi subito la barra controlli">
+            <i data-lucide="chevron-up"></i>
+          </button>
+
+          <!-- CLOSE SERVICE VIEWER -->
+          <button class="btn btn-glass btn-icon" id="service-close-btn" title="Chiudi servizio" style="border-color: rgba(232, 33, 39, 0.4); color: #ff4d4d;">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOUCH HANDLE PILL TO BRING TOPBAR BACK -->
+      <div class="service-topbar-handle" id="service-topbar-handle" title="Tocca o passa sopra per mostrare i controlli">
+        <i data-lucide="chevron-down"></i>
+      </div>
+
+      <!-- IFRAME CONTAINER -->
+      <div class="service-viewer-content" id="service-viewer-content">
+        <iframe id="service-viewer-iframe" src="about:blank" title="Service Viewer" allow="fullscreen; autoplay; camera; microphone"></iframe>
       </div>
     </div>
   </div>

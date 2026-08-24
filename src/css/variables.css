@@ -29,6 +29,11 @@
   --main-padding-x: clamp(14px, 2.5vw, 32px);
   --main-padding-y: clamp(12px, 2vh, 24px);
 
+  /* User DPI & Zoom Controls */
+  --dashboard-zoom: 100%;
+  --services-default-zoom: 100%;
+  --app-zoom-factor: 1;
+
   /* Transitions & Animations */
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -38,12 +43,29 @@
 
 /* Base Responsive Scale for Tesla 1.5x / 2.0x DPR Viewports */
 html {
-  font-size: clamp(16px, 1.2vw, 18px);
+  font-size: clamp(14.5px, 1.15vw, 17px);
 }
 
 @media (max-height: 768px) {
   html {
-    font-size: 15px;
+    font-size: 14px;
+  }
+}
+
+/* TESLA 2026.26 SOFTWARE UPDATE DPR COMPENSATOR & DYNAMIC DASHBOARD ZOOM */
+html[data-tesla-dpr="high"],
+html.tesla-2026-mode {
+  font-size: clamp(13px, 1.05vw, 15px);
+  --header-height: clamp(48px, 6.5vh, 60px);
+  --main-padding-x: clamp(10px, 1.8vw, 22px);
+  --main-padding-y: clamp(8px, 1.5vh, 18px);
+  --grid-gap: clamp(10px, 1.5vw, 18px);
+}
+
+@media (max-height: 650px) {
+  html {
+    font-size: clamp(11px, 0.9vw, 13px);
+    --header-height: 48px;
   }
 }
 
